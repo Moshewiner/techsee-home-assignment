@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { config } from '../../config';
 import { TesterData } from './home-page.types';
 import { DataFormatterContext } from '../../services/data-formatters/data-formatters.context';
@@ -35,7 +35,7 @@ export default function HomePage() {
                 setError(error);
             }
         })();
-    }, [renderedTesterName]);
+    }, [renderedTesterName, dataFormatter, internalTesterName]);
 
     return (
         <>
@@ -66,7 +66,7 @@ export default function HomePage() {
                 </button>
             {error && `Temporary error occurred, please try again later.`}
             {data.length > 0 ? (
-                <Table columns={columns} data={data}></Table>
+                <Table columns={columns} data={data} initialSortBy={{ columnId: 'firstName' }}></Table>
             ) : !error && (
                 <span>Loading..</span>
             )}

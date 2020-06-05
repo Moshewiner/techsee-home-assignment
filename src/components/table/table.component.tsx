@@ -6,6 +6,10 @@ import { RowDataType, ColumnType } from './table.types';
 export default function Table(props: {
     data: RowDataType[];
     columns: ColumnType;
+    initialSortBy?: {
+        columnId: string;
+        desc?: boolean;
+    };
 }) {
     const {
         getTableProps,
@@ -20,8 +24,8 @@ export default function Table(props: {
             initialState: {
                 sortBy: [
                     {
-                        id: 'firstName',
-                        desc: false,
+                        id: props.initialSortBy?.columnId,
+                        desc: !!props.initialSortBy?.desc,
                     },
                 ],
             } as TableState,
