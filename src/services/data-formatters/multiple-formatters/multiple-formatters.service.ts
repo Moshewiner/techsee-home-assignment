@@ -1,10 +1,10 @@
 import { DataFormatter, IDataFormatter } from './../data-formatters.types';
-export class MultipleDataFormatter<T, V> implements DataFormatter<T, V> {
-    constructor(private formatters: IDataFormatter[]) {}
+export class MultipleDataFormatter<T, V = T> implements DataFormatter<T, V> {
+    constructor(private formatters: IDataFormatter[]) { }
 
-    format(data: any): any {
-        return this.formatters.reduce((currData, formatter) => {
+    format(data: T): V {
+        return this.formatters.reduce((currData: unknown, formatter: IDataFormatter) => {
             return formatter.format(currData);
-        }, data);
+        }, data) as V;
     }
 }
