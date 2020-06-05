@@ -37,16 +37,16 @@ function HomePage() {
         }
     }, [data]);
 
-    if (error) {
-        return <>Temporary error occurred, please try again later.</>;
-    }
-
-    if (data.length > 0) {
-        return <Table columns={columns} data={data}></Table>;
-    }
-    else {
-        return <>Loading</>;
-    }
+    return (
+        <>
+            {
+                error && `Temporary error occurred, please try again later.`
+            }
+            {
+                data.length > 0 ? <Table columns={columns} data={data}></Table> : <span>Loading..</span>
+            }
+        </>
+    );
 }
 
 interface Bug { }
