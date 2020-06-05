@@ -13,6 +13,6 @@ export class BugsFormatter implements DataFormatter<TesterData[]> {
     }
 
     private formatBugs(bugs): string {
-        return bugs.map((bug) => bug.title).join(',');
+        return bugs.map((bug) => bug.title).join(', ');
     }
 }
