@@ -9,6 +9,7 @@ function HomePage() {
     const [testerName, setTesterName] = useState('all');
     const [data, setData] = useState<DataType>([]);
     const [columns, setColumns] = useState<ColumnType>([]);
+    const [error, setError] = useState<Error>();
 
     useEffect(() => {
         (async function () {
@@ -16,7 +17,7 @@ function HomePage() {
                 const response = await getBugsByName(testerName);
                 setData(response);
             } catch (error) {
-                console.error(error);
+                setError(error);
             }
         })();
     }, [testerName]);
@@ -35,6 +36,10 @@ function HomePage() {
             setColumns(newColumns);
         }
     }, [data]);
+
+    if (error) {
+        return <>Temporary error occurred, please try again later.</>;
+    }
 
     if (data.length > 0) {
         return <Table columns={columns} data={data}></Table>;
