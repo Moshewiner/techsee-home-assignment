@@ -9,7 +9,7 @@ import './home-page.component.css';
 export default function HomePage() {
     const [renderedTesterName, setRenderedTesterName] = useState('all');
     const [internalTesterName, setInternalTesterName] = useState(renderedTesterName);
-    const [isValidTesterName, setIsValidTesterName] = useState(true);
+    const [isValidTesterName, setIsValidTesterName] = useState(false);
 
     const [data, setData] = useState<TesterData[]>([]);
     const [columns, setColumns] = useState<ColumnType>([]);
@@ -24,19 +24,18 @@ export default function HomePage() {
                 const formattedData: TesterData[] = dataFormatter.format(
                     response
                 );
+
                 setData(formattedData);
+
+                if (formattedData.length > 0) {
+                    const newColumns: ColumnType = getColumnOfDataRow(formattedData[0]);
+                    setColumns(newColumns);
+                }
             } catch (error) {
                 setError(error);
             }
         })();
     }, [renderedTesterName]);
-
-    useEffect(() => {
-        if (data.length > 0) {
-            const newColumns: ColumnType = getColumnOfDataRow(data[0]);
-            setColumns(newColumns);
-        }
-    }, [data]);
 
     return (
         <>
@@ -68,9 +67,9 @@ export default function HomePage() {
             {error && `Temporary error occurred, please try again later.`}
             {data.length > 0 ? (
                 <Table columns={columns} data={data}></Table>
-            ) : (
-                    <span>Loading..</span>
-                )}
+            ) : !error && (
+                <span>Loading..</span>
+            )}
         </>
     );
 }

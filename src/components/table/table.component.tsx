@@ -2,6 +2,7 @@ import React from 'react';
 import { useTable, useSortBy, HeaderGroup, Row, TableState } from 'react-table';
 import { RowDataType, ColumnType } from './table.types';
 
+//TODO: Add Generics types
 export default function Table(props: {
     data: RowDataType;
     columns: ColumnType;
