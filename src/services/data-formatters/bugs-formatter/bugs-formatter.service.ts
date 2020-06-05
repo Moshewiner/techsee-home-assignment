@@ -1,6 +1,5 @@
-import { RowDataType } from "../../../components/table/table.component";
-import { DataFormatter } from "../data-formatters.types";
-import { TesterData } from "../../../pages/home/home-page.types";
+import { DataFormatter } from '../data-formatters.types';
+import { TesterData } from '../../../pages/home/home-page.types';
 
 export class BugsFormatter implements DataFormatter<TesterData[]> {
     public format(data: TesterData[]): TesterData[] {
@@ -8,12 +7,12 @@ export class BugsFormatter implements DataFormatter<TesterData[]> {
             const row = data[rowIndex];
             return {
                 ...row,
-                bugs: row.bugs ? this.formatBugs(row.bugs) : []
+                bugs: row.bugs ? this.formatBugs(row.bugs) : [],
             };
         });
     }
 
     private formatBugs(bugs): string {
-        return bugs.map(bug => bug.title).join(',');
+        return bugs.map((bug) => bug.title).join(',');
     }
 }

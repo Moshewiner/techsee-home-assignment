@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
-import Table, { ColumnType, RowDataType } from '../../components/table/table.component';
 import { config } from '../../config';
 import { TesterData } from './home-page.types';
 import { DataFormatterContext } from '../../services/data-formatters/data-formatters.context';
+import { ColumnType } from '../../components/table/table.types';
+import Table from '../../components/table/table.component';
 
-function HomePage() {
-    const [testerName, setTesterName] = useState('all');
+export default function HomePage() {
+    const [testerName, setTesterName] = useState('rob');
     const [data, setData] = useState<TesterData[]>([]);
     const [columns, setColumns] = useState<ColumnType>([]);
     const [error, setError] = useState<Error>();
@@ -16,7 +17,10 @@ function HomePage() {
         (async function () {
             try {
                 const response: TesterData[] = await getBugsByName(testerName);
-                const formattedData: TesterData[] = dataFormatter.format(response);
+                const formattedData: TesterData[] = dataFormatter.format(
+                    response
+                );
+                console.log({ formattedData });
                 setData(formattedData);
             } catch (error) {
                 setError(error);
@@ -37,8 +41,8 @@ function HomePage() {
             {data.length > 0 ? (
                 <Table columns={columns} data={data}></Table>
             ) : (
-                    <span>Loading..</span>
-                )}
+                <span>Loading..</span>
+            )}
         </>
     );
 }
@@ -52,7 +56,8 @@ async function getBugsByName(name: string = 'all'): Promise<TesterData[]> {
 }
 
 function getColumnOfDataRow(row: TesterData): ColumnType {
-    return Object.keys(row).map((dataColumn: string) => ({ Header: dataColumn, accessor: dataColumn }));
+    return Object.keys(row).map((dataColumn: string) => ({
+        Header: dataColumn,
+        accessor: dataColumn,
+    }));
 }
-
-export default HomePage;

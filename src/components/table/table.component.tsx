@@ -1,14 +1,11 @@
 import React from 'react';
 import { useTable, useSortBy, HeaderGroup, Row, TableState } from 'react-table';
+import { RowDataType, ColumnType } from './table.types';
 
-export type ColumnType = {
-    Header: string;
-    accessor: string;
-}[];
-
-export type RowDataType = object[];
-
-function Table(props: { data: RowDataType; columns: ColumnType }) {
+export default function Table(props: {
+    data: RowDataType;
+    columns: ColumnType;
+}) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -78,5 +75,3 @@ function Table(props: { data: RowDataType; columns: ColumnType }) {
         </table>
     );
 }
-
-export default Table;
