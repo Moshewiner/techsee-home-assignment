@@ -10,8 +10,6 @@ export const Initialize = () => {
     ]);
 
     return {
-        bugsFormatter,
-        arrayResponseFormatter,
-        multipleDataFormatter,
+        dataFormatter: multipleDataFormatter,
     };
 };

@@ -4,11 +4,11 @@ import HomePage from './pages/home/home-page.component';
 import { Initialize } from './services/services.initializer';
 import { DataFormatterContext } from './services/data-formatters/data-formatters.context';
 
-const { multipleDataFormatter } = Initialize();
+const { dataFormatter } = Initialize();
 
 function App() {
     return (
-        <DataFormatterContext.Provider value={multipleDataFormatter}>
+        <DataFormatterContext.Provider value={dataFormatter}>
             <HomePage></HomePage>;
         </DataFormatterContext.Provider>
     );
