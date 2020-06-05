@@ -1,69 +1,42 @@
 import React from 'react';
-import {
-    useTable,
-    useSortBy,
-    HeaderGroup,
-    Row,
-    TableState
-} from 'react-table';
+import { useTable, useSortBy, HeaderGroup, Row, TableState } from 'react-table';
 
+export type ColumnType = {
+    Header: string;
+    accessor: string;
+}[];
 
-function Table() {
-    const data = React.useMemo(
-        () => [
-            {
-                col1: 'Hello',
-                col2: 'World',
-            },
-            {
-                col1: 'react-table',
-                col2: 'rocks',
-            },
-            {
-                col1: 'whatever',
-                col2: 'you want',
-            },
-        ],
-        []
-    )
+export type DataType = object[];
 
-    const columns = React.useMemo(
-        () => [
-            {
-                Header: 'Column 1',
-                accessor: 'col1',
-            },
-            {
-                Header: 'Column 2',
-                accessor: 'col2',
-            },
-        ],
-        []
-    )
-
+function Table(props: { data: DataType; columns: ColumnType }) {
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
         prepareRow,
-    } = useTable<any>({
-        columns, data, initialState: {
-            sortBy: [
-                {
-                    id: 'col1',
-                    desc: false
-                }
-            ]
-        } as TableState
-    }, useSortBy)
+    } = useTable<any>(
+        {
+            columns: props.columns,
+            data: props.data,
+            initialState: {
+                sortBy: [
+                    {
+                        id: 'firstName',
+                        desc: false,
+                    },
+                ],
+            } as TableState,
+        },
+        useSortBy
+    );
 
     return (
         <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
             <thead>
                 {headerGroups.map((headerGroup: HeaderGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(column => (
+                        {headerGroup.headers.map((column) => (
                             <th
                                 {...column.getHeaderProps()}
                                 style={{
@@ -81,10 +54,10 @@ function Table() {
             </thead>
             <tbody {...getTableBodyProps()}>
                 {rows.map((row: Row) => {
-                    prepareRow(row)
+                    prepareRow(row);
                     return (
                         <tr {...row.getRowProps()}>
-                            {row.cells.map(cell => {
+                            {row.cells.map((cell) => {
                                 return (
                                     <td
                                         {...cell.getCellProps()}
@@ -96,14 +69,14 @@ function Table() {
                                     >
                                         {cell.render('Cell')}
                                     </td>
-                                )
+                                );
                             })}
                         </tr>
-                    )
+                    );
                 })}
             </tbody>
         </table>
-    )
+    );
 }
 
 export default Table;
