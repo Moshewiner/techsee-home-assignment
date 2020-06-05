@@ -1,12 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { config } from '../../config';
 import { TesterData } from './home-page.types';
 import { DataFormatterContext } from '../../services/data-formatters/data-formatters.context';
 import { ColumnType } from '../../components/table/table.types';
 import Table from '../../components/table/table.component';
+import debounce from 'lodash/debounce';
 
 export default function HomePage() {
-    const [testerName, setTesterName] = useState('rob');
+    const [renderedTesterName, setRenderedTesterName] = useState('all');
+    const [internalTesterName, setInternalTesterName] = useState(renderedTesterName);
+    const changeTesterName = useCallback(debounce(setRenderedTesterName, config.ApiDebounceTreshold), [renderedTesterName]);
+
     const [data, setData] = useState<TesterData[]>([]);
     const [columns, setColumns] = useState<ColumnType>([]);
     const [error, setError] = useState<Error>();
@@ -16,17 +20,16 @@ export default function HomePage() {
     useEffect(() => {
         (async function () {
             try {
-                const response: TesterData[] = await getBugsByName(testerName);
+                const response: TesterData[] = await getBugsByName(internalTesterName);
                 const formattedData: TesterData[] = dataFormatter.format(
                     response
                 );
-                console.log({ formattedData });
                 setData(formattedData);
             } catch (error) {
                 setError(error);
             }
         })();
-    }, [testerName]);
+    }, [renderedTesterName]);
 
     useEffect(() => {
         if (data.length > 0) {
@@ -37,12 +40,21 @@ export default function HomePage() {
 
     return (
         <>
+            <input placeholder='Tester name..'
+                value={internalTesterName}
+                onChange={
+                    (e) => {
+                        const testerNameToSearch: string = e.target.value;
+                        setInternalTesterName(testerNameToSearch);
+                        changeTesterName(testerNameToSearch);
+                    }
+                } />
             {error && `Temporary error occurred, please try again later.`}
             {data.length > 0 ? (
                 <Table columns={columns} data={data}></Table>
             ) : (
-                <span>Loading..</span>
-            )}
+                    <span>Loading..</span>
+                )}
         </>
     );
 }
