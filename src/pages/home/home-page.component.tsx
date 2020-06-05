@@ -40,7 +40,11 @@ export default function HomePage() {
 
     return (
         <>
-            <input placeholder='Tester name..'
+            <h1>Search bugs..</h1>
+            <label htmlFor='TesterNameInput'>Tester Name</label>
+            <input
+                id='TesterNameInput'
+                placeholder='Enter the tester name'
                 value={internalTesterName}
                 onChange={
                     (e) => {
@@ -48,7 +52,7 @@ export default function HomePage() {
                         setInternalTesterName(testerNameToSearch);
                         changeTesterName(testerNameToSearch);
                     }
-                } />
+                } /><br />
             {error && `Temporary error occurred, please try again later.`}
             {data.length > 0 ? (
                 <Table columns={columns} data={data}></Table>
