@@ -51,6 +51,7 @@ export default function HomePage() {
                     }
                 } /><br />
             <button
+                disabled={internalTesterName.length === 0}
                 onClick={
                     () => {
                         setRenderedTesterName(internalTesterName);
