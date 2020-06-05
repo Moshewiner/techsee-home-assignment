@@ -6,9 +6,9 @@ export type ColumnType = {
     accessor: string;
 }[];
 
-export type DataType = object[];
+export type RowDataType = object[];
 
-function Table(props: { data: DataType; columns: ColumnType }) {
+function Table(props: { data: RowDataType; columns: ColumnType }) {
     const {
         getTableProps,
         getTableBodyProps,

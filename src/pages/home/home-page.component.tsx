@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import Table, { ColumnType } from '../../components/table/table.component';
+import React, { useEffect, useState, useContext } from 'react';
+import Table, { ColumnType, RowDataType } from '../../components/table/table.component';
 import { config } from '../../config';
 import { TesterData } from './home-page.types';
+import { DataFormatterContext } from '../../services/data-formatters/data-formatters.context';
 
 function HomePage() {
     const [testerName, setTesterName] = useState('all');
@@ -9,11 +10,14 @@ function HomePage() {
     const [columns, setColumns] = useState<ColumnType>([]);
     const [error, setError] = useState<Error>();
 
+    const dataFormatter = useContext(DataFormatterContext);
+
     useEffect(() => {
         (async function () {
             try {
-                const response = await getBugsByName(testerName);
-                setData(response);
+                const response: TesterData[] = await getBugsByName(testerName);
+                const formattedData: TesterData[] = dataFormatter.format(response);
+                setData(formattedData);
             } catch (error) {
                 setError(error);
             }
@@ -33,8 +37,8 @@ function HomePage() {
             {data.length > 0 ? (
                 <Table columns={columns} data={data}></Table>
             ) : (
-                <span>Loading..</span>
-            )}
+                    <span>Loading..</span>
+                )}
         </>
     );
 }
@@ -48,17 +52,7 @@ async function getBugsByName(name: string = 'all'): Promise<TesterData[]> {
 }
 
 function getColumnOfDataRow(row: TesterData): ColumnType {
-    return (
-        Object.keys(row)
-            //TODO: Handle Bugs
-            .filter((k) => k !== 'bugs')
-            .map((dataColumn: string) => {
-                return {
-                    Header: dataColumn,
-                    accessor: dataColumn,
-                };
-            })
-    );
+    return Object.keys(row).map((dataColumn: string) => ({ Header: dataColumn, accessor: dataColumn }));
 }
 
 export default HomePage;
