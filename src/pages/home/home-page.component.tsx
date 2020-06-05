@@ -33,8 +33,8 @@ function HomePage() {
             {data.length > 0 ? (
                 <Table columns={columns} data={data}></Table>
             ) : (
-                    <span>Loading..</span>
-                )}
+                <span>Loading..</span>
+            )}
         </>
     );
 }
@@ -48,15 +48,17 @@ async function getBugsByName(name: string = 'all'): Promise<TesterData[]> {
 }
 
 function getColumnOfDataRow(row: TesterData): ColumnType {
-    return Object.keys(row)
-        //TODO: Handle Bugs
-        .filter((k) => k !== 'bugs')
-        .map((dataColumn: string) => {
-            return {
-                Header: dataColumn,
-                accessor: dataColumn,
-            };
-        });
+    return (
+        Object.keys(row)
+            //TODO: Handle Bugs
+            .filter((k) => k !== 'bugs')
+            .map((dataColumn: string) => {
+                return {
+                    Header: dataColumn,
+                    accessor: dataColumn,
+                };
+            })
+    );
 }
 
 export default HomePage;

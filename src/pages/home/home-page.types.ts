@@ -1,6 +1,6 @@
 export interface Bug {
     id: number;
-    title: string
+    title: string;
 }
 
 export interface TesterData {
@@ -8,5 +8,5 @@ export interface TesterData {
     lastName: string;
     country: string;
     device: string;
-    bugs: Bug[]
+    bugs: Bug[];
 }
