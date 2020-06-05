@@ -82,7 +82,7 @@ async function getBugsByName(name: string = 'all'): Promise<TesterData[]> {
     return fetch(url, fetchOptions as any).then((r) => r.json());
 }
 
-function getColumnOfDataRow(row: TesterData): ColumnType {
+export function getColumnOfDataRow(row: TesterData): ColumnType {
     return Object.keys(row).map((dataColumn: string) => ({
         Header: dataColumn,
         accessor: dataColumn,
