@@ -3,7 +3,8 @@ import {
     useTable,
     useSortBy,
     HeaderGroup,
-    Row
+    Row,
+    TableState
 } from 'react-table';
 
 
@@ -30,7 +31,7 @@ function Table() {
         () => [
             {
                 Header: 'Column 1',
-                accessor: 'col1', // accessor is the "key" in the data
+                accessor: 'col1',
             },
             {
                 Header: 'Column 2',
@@ -46,7 +47,16 @@ function Table() {
         headerGroups,
         rows,
         prepareRow,
-    } = useTable<any>({ columns, data })
+    } = useTable<any>({
+        columns, data, initialState: {
+            sortBy: [
+                {
+                    id: 'col1',
+                    desc: false
+                }
+            ]
+        } as TableState
+    }, useSortBy)
 
     return (
         <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
