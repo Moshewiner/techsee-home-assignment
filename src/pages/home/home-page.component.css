@@ -1,0 +1,9 @@
+.error {
+    border: 2px solid red;
+    outline: 0;
+}
+
+.valid {
+    outline: 0;
+    border: 2px solid green;
+}

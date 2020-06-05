@@ -4,10 +4,12 @@ import { TesterData } from './home-page.types';
 import { DataFormatterContext } from '../../services/data-formatters/data-formatters.context';
 import { ColumnType } from '../../components/table/table.types';
 import Table from '../../components/table/table.component';
+import './home-page.component.css';
 
 export default function HomePage() {
     const [renderedTesterName, setRenderedTesterName] = useState('all');
     const [internalTesterName, setInternalTesterName] = useState(renderedTesterName);
+    const [isValidTesterName, setIsValidTesterName] = useState(true);
 
     const [data, setData] = useState<TesterData[]>([]);
     const [columns, setColumns] = useState<ColumnType>([]);
@@ -43,11 +45,14 @@ export default function HomePage() {
             <input
                 id='TesterNameInput'
                 placeholder='Enter the tester name'
+                className={isValidTesterName ? 'valid' : 'error'}
                 value={internalTesterName}
                 onChange={
                     (e) => {
                         const testerNameToSearch: string = e.target.value;
                         setInternalTesterName(testerNameToSearch);
+                        const isValid: boolean = validateTesterName(internalTesterName)
+                        setIsValidTesterName(isValid);
                     }
                 } /><br />
             <button
@@ -83,4 +88,8 @@ function getColumnOfDataRow(row: TesterData): ColumnType {
         Header: dataColumn,
         accessor: dataColumn,
     }));
+}
+
+function validateTesterName(testerName: string): boolean {
+    return testerName.length >= config.testerName.validations.minLength && testerName.length <= config.testerName.validations.maxLength;
 }
