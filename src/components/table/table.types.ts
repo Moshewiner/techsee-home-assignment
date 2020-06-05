@@ -3,4 +3,4 @@ export type ColumnType = {
     accessor: string;
 }[];
 
-export type RowDataType = object[];
+export type RowDataType = object;

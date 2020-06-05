@@ -1,10 +1,10 @@
 import React from 'react';
-import { useTable, useSortBy, HeaderGroup, Row, TableState } from 'react-table';
+import { useTable, useSortBy, Row, TableState } from 'react-table';
 import { RowDataType, ColumnType } from './table.types';
 
 //TODO: Add Generics types
 export default function Table(props: {
-    data: RowDataType;
+    data: RowDataType[];
     columns: ColumnType;
 }) {
     const {
@@ -13,7 +13,7 @@ export default function Table(props: {
         headerGroups,
         rows,
         prepareRow,
-    } = useTable<any>(
+    } = useTable<RowDataType>(
         {
             columns: props.columns,
             data: props.data,
@@ -32,11 +32,11 @@ export default function Table(props: {
     return (
         <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
             <thead>
-                {headerGroups.map((headerGroup: HeaderGroup) => (
+                {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (
                             <th
-                                {...column.getHeaderProps()}
+                                {...column.getHeaderProps((column as any).getSortByToggleProps())}
                                 style={{
                                     borderBottom: 'solid 3px red',
                                     background: 'aliceblue',
@@ -45,6 +45,14 @@ export default function Table(props: {
                                 }}
                             >
                                 {column.render('Header')}
+                                <span>
+                                    {
+                                        (column as any).isSorted
+                                            ? (column as any).isSortedDesc
+                                                ? ' 🔽'
+                                                : ' 🔼'
+                                            : ''}
+                                </span>
                             </th>
                         ))}
                     </tr>
