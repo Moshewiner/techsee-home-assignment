@@ -4,12 +4,10 @@ import { TesterData } from './home-page.types';
 import { DataFormatterContext } from '../../services/data-formatters/data-formatters.context';
 import { ColumnType } from '../../components/table/table.types';
 import Table from '../../components/table/table.component';
-import debounce from 'lodash/debounce';
 
 export default function HomePage() {
     const [renderedTesterName, setRenderedTesterName] = useState('all');
     const [internalTesterName, setInternalTesterName] = useState(renderedTesterName);
-    const changeTesterName = useCallback(debounce(setRenderedTesterName, config.ApiDebounceTreshold), [renderedTesterName]);
 
     const [data, setData] = useState<TesterData[]>([]);
     const [columns, setColumns] = useState<ColumnType>([]);
@@ -50,9 +48,17 @@ export default function HomePage() {
                     (e) => {
                         const testerNameToSearch: string = e.target.value;
                         setInternalTesterName(testerNameToSearch);
-                        changeTesterName(testerNameToSearch);
                     }
                 } /><br />
+            <button
+                onClick={
+                    () => {
+                        setRenderedTesterName(internalTesterName);
+                    }
+                }
+            >
+                Fetch
+                </button>
             {error && `Temporary error occurred, please try again later.`}
             {data.length > 0 ? (
                 <Table columns={columns} data={data}></Table>
