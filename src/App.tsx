@@ -9,7 +9,7 @@ const { dataFormatter } = Initialize();
 function App() {
     return (
         <DataFormatterContext.Provider value={dataFormatter}>
-            <HomePage></HomePage>;
+            <HomePage></HomePage>
         </DataFormatterContext.Provider>
     );
 }
