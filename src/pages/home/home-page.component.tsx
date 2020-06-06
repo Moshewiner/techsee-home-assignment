@@ -35,7 +35,7 @@ export default function HomePage() {
                 setError(error);
             }
         })();
-    }, [renderedTesterName, dataFormatter, internalTesterName]);
+    }, [renderedTesterName, dataFormatter]);
 
     return (
         <div className='home-page'>
