@@ -1,0 +1,25 @@
+.table {
+    border: "solid 1px blue";
+    color: white;
+    border-collapse: unset !important;
+
+    .head {
+        .row {
+            .cell {
+                background-color: rgba(255, 255, 255, 0.3);
+                color: white;
+                user-select: none;
+            }
+        }
+    }
+
+    .body {
+        .row {
+            .cell {
+                padding: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                color: white;
+            }
+        }
+    }
+}

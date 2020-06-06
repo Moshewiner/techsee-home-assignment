@@ -2,6 +2,14 @@ import React from 'react';
 import { useTable, useSortBy, Row, TableState } from 'react-table';
 import { RowDataType, ColumnType } from './table.types';
 
+import MaUTable from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
+import './table.component.scss';
+
 //TODO: Add Generics types
 export default function Table(props: {
     data: RowDataType[];
@@ -34,57 +42,48 @@ export default function Table(props: {
     );
 
     return (
-        <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
-            <thead>
+        <MaUTable className='table' {...getTableProps()}>
+            <TableHead className='head'>
                 {headerGroups.map((headerGroup) => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
+                    <TableRow className='row'  {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (
-                            <th
+                            <TableCell
+                                className='cell'
                                 {...column.getHeaderProps((column as any).getSortByToggleProps())}
-                                style={{
-                                    borderBottom: 'solid 3px red',
-                                    background: 'aliceblue',
-                                    color: 'black',
-                                    fontWeight: 'bold',
-                                }}
                             >
                                 {column.render('Header')}
                                 <span>
                                     {
                                         (column as any).isSorted
                                             ? (column as any).isSortedDesc
-                                                ? ' 🔽'
-                                                : ' 🔼'
+                                                ? ' 🠟'
+                                                : ' 🠝'
                                             : ''}
                                 </span>
-                            </th>
+                            </TableCell>
                         ))}
-                    </tr>
+                    </TableRow>
                 ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
+            </TableHead>
+            <TableBody className='body' {...getTableBodyProps()}>
                 {rows.map((row: Row) => {
                     prepareRow(row);
                     return (
-                        <tr {...row.getRowProps()}>
+                        <TableRow className='row' {...row.getRowProps()}>
                             {row.cells.map((cell) => {
                                 return (
-                                    <td
+                                    <TableCell
+                                        className='cell'
                                         {...cell.getCellProps()}
-                                        style={{
-                                            padding: '10px',
-                                            border: 'solid 1px gray',
-                                            background: 'papayawhip',
-                                        }}
                                     >
                                         {cell.render('Cell')}
-                                    </td>
+                                    </TableCell>
                                 );
                             })}
-                        </tr>
+                        </TableRow>
                     );
                 })}
-            </tbody>
-        </table>
+            </TableBody>
+        </MaUTable>
     );
 }
